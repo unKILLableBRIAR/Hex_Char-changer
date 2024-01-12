@@ -4,6 +4,13 @@
 char hex_to_char(char*);
 
 int main(){
+    FILE* fp = fopen("after_translate.txt", "w");
+
+    if(fp == NULL){
+        fprintf(stderr, "Can't make a file!\n");
+        return 1;
+    }
+
     char hex_str[3];
     char end_code[3] = "00";
     int chk_end_code = 0;
@@ -16,11 +23,15 @@ int main(){
             break;
         }
         c = hex_to_char(hex_str);
-        printf("%c\n", c);
+        fprintf(fp ,"%c", c);
+        getchar();
     }
 
     printf("complete!\n");
 
+    fclose(fp);
+
+    return 0;
 }
 
 char hex_to_char(char* hex_str){
