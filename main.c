@@ -4,32 +4,36 @@
 char hex_to_char(char*);
 
 int main(){
-    FILE* fp = fopen("after_translate.txt", "w");
+    char file_name[100];
+    scanf("%s", file_name);
 
-    if(fp == NULL){
-        fprintf(stderr, "Can't make a file!\n");
+    FILE* fp1 = fopen(file_name, "r");
+    FILE* fp2 = fopen("after_translate.txt", "w");
+
+    if(fp1 == NULL){
+        fprintf(stderr, "Can't open this file! (%s)\n", file_name);
         return 1;
     }
 
+    if(fp2 == NULL){
+        fprintf(stderr, "Can't make a file!\n");
+        return 2;
+    }
+
     char hex_str[3];
-    char end_code[3] = "00";
+    char end_code[3] = "00"; 
     int chk_end_code = 0;
     char c;
 
-    while(1){
-        scanf("%s", hex_str);
-        chk_end_code = strcmp(hex_str, end_code);
-        if(chk_end_code == 0){
-            break;
-        }
+    while(fscanf(fp1, "%s", hex_str) != EOF){
         c = hex_to_char(hex_str);
-        fprintf(fp ,"%c", c);
-        getchar();
+        fprintf(fp2 ,"%c", c);
     }
 
     printf("complete!\n");
 
-    fclose(fp);
+    fclose(fp1);
+    fclose(fp2);
 
     return 0;
 }
